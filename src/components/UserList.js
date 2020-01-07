@@ -17,7 +17,7 @@ export default function UserList(){
     useEffect(()=>{
          const getUsers = () =>{
             axios
-                .get('https://app.swaggerhub.com/apis/ajohnson1031/AMP_Backend/1.0')
+                .get('https://african-marketplace-backend.herokuapp.com/api/users')
                 .then(res =>{
                     console.log(res.data);
                     const results = res.data.filter(character => {

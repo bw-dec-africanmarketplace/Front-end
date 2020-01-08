@@ -14,7 +14,7 @@ export default function SearchForm({searchTerms, handleChange}){
     useEffect(() => {
         const newUsers = () =>{
             axios
-                .get('https://app.swaggerhub.com/apis/ajohnson1031/AMP_Backend/1.0')
+                .get('https://african-marketplace-backend.herokuapp.com/api/users')    
                 .then(res =>{
                     console.log(res.data);
                     setFavUser(res.data);

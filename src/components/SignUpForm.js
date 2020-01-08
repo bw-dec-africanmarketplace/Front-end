@@ -1,54 +1,18 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import Button from '@material-ui/core/Button';
 import { purple } from '@material-ui/core/colors';
 import { withStyles } from '@material-ui/core/styles';
 
-
-export default class UserForm extends Component{
-        constructor(){
-            super();
-            this.state = {
-                email: '',
-                username: '',
-                owner_first_name: '',
-                owner_last_name: '',
-                business_name: '',
-            
-            };
-        }
-     
-
-    onChange = (e) => {
-        
-        this.setState({ [e.target.name]: e.target.value });
-    }
-    onSubmit = (e) => {
-        e.preventDefault();
-        const { email, username, owner_first_name, owner_last_name, business_name} = this.state;
-
-        axios
-            .post('https://app.swaggerhub.com/apis/ajohnson1031/AMP_Backend/1.0', { email, username, owner_first_name, owner_last_name, business_name })
-            .then(res =>{
-                console.log(res.data)
-            })
-            .catch(err =>{
-                console.error('Error', err)
-            });
-    }
-    
-    render() {
-        const { email, username, owner_first_name,owner_last_name,business_name } = this.state;
-
-        const Form = styled.form`
+const Form = styled.form`
             display: flex;
             flex-direction: column;
             width: 50%;
             margin: 2% auto;
             background: dodgerblue;
         `
-        const Input = styled.input`
+const Input = styled.input`
              display: block;
              width: 75%;
              padding: 9px;
@@ -56,6 +20,43 @@ export default class UserForm extends Component{
              margin: 3% auto;
              
         `
+
+export default class UserForm extends Component {
+    constructor() {
+        super();
+        this.state = {
+            username: '',
+            password: '',
+            owner_firstname: '',
+            owner_lastname: '',
+            business_name: '',
+
+        };
+    }
+
+    onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+        console.log(e.target.value);
+    }
+
+    createUser = (e) => {
+        e.preventDefault();
+        const {username, password, owner_firstname, owner_lastname, business_name } = this.state;
+        axios
+            .post('https://african-marketplace-backend.herokuapp.com/api/register', { username, password, owner_firstname, owner_lastname, business_name })
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.error('Error', err)
+            });
+        
+    };
+    
+
+    render() {
+        const {username, password, owner_firstname, owner_lastname, business_name } = this.state;
+       
         const ColorButton = withStyles(theme => ({
             root: {
                 color: theme.palette.getContrastText(purple[500]),
@@ -65,56 +66,47 @@ export default class UserForm extends Component{
                 },
             },
         }))(Button);
-    
-        
+
+
         return (
             <Form className="inputFields">
-                <Input
-                    type="text"
-                    placeholder="Email"
-                    email="email"
-                    value={email}
-                    onChange={this.onChange}
-                />
-                <br/>
+                
                 <Input
                     type="text"
                     placeholder="Username"
-                    username="username"
+                    name="username"
                     value={username}
                     onChange={this.onChange}
                 />
-                <br/>
+                <br />
                 <Input
                     type="text"
                     placeholder="First Name"
-                    fname="first name"
-                    value={owner_first_name}
+                    name="owner_firstname"
+                    value={owner_firstname}
                     onChange={this.onChange}
                 />
-                <br/>
+                <br />
                 <Input
                     type="text"
                     placeholder="Last Name"
-                    lname="last name"
-                    value={owner_last_name}
+                    name="owner_lastname"
+                    value={owner_lastname}
                     onChange={this.onChange}
-                    />
-                <br/>
+                />
+                <br />
                 <Input
                     type="text"
                     placeholder="Business"
-                    business="business name"
+                    name="business_name"
                     value={business_name}
                     onChange={this.onChange}
-                    />
-                    
-                <ColorButton variant="contained" color="primary">
+                />
+
+                <ColorButton variant="contained" color="primary" onClick={this.createUser} >
                     Submit
                 </ColorButton>
-                    
             </Form>
         );
     }
 }
-

@@ -1,40 +1,63 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import Hamburger from './Hamburger';
-const Wrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-`;
+import React from "react";
+import ReactDOM from "react-dom";
+import { withFormik, Form, Field } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
 
-class App extends Component {
-  render() {
-    return (
-      <Wrapper>
-        <Hamburger />
-      </Wrapper>
-    );
-  }
+function LoginForm({ values, errors, touched, isSubmitting }) {
+  return (
+    <Form>
+      <div>
+        {touched.email && errors.email && <p>{errors.email}</p>}
+        <Field type="email" name="email" placeholder="Email" />
+      </div>
+      <div>
+        {touched.password && errors.password && <p>{errors.password}</p>}
+        <Field type="password" name="password" placeholder="Password" />
+      </div>
+      <label>
+        <Field type="checkbox" name="tos" checked={values.tos} />
+        Accept TOS
+      </label>
+      <button disabled={isSubmitting}>Submit</button>
+    </Form>
+  );
 }
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
+const FormikLoginForm = withFormik({
+  mapPropsToValues({ email, password, tos, meal }) {
+    return {
+      email: email || "",
+      password: password || "",
+      tos: tos || false,
+      meal: meal || "silver"
+    };
+  },
+  validationSchema: Yup.object().shape({
+    email: Yup.string()
+      .email("Email not valid")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(16, "Password must be 16 characters or longer")
+      .required("Password is required")
+  }),
+  handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
+    if (values.email === "alreadytaken@atb.dev") {
+      setErrors({ email: "That email is already taken" });
+    } else {
+      axios
+        .post("https://yourdatabaseurlgoeshere.com", values)
+        .then(res => {
+          console.log(res); // Data was created successfully and logs to console
+          resetForm();
+          setSubmitting(false);
+        })
+        .catch(err => {
+          console.log(err); // There was an error creating the data and logs to console
+          setSubmitting(false);
+        });
+    }
+  }
+})(LoginForm);
 
-export default App;
+export default FormikLoginForm;

@@ -41,9 +41,9 @@ export default class UserForm extends Component {
 
     createUser = (e) => {
         e.preventDefault();
-        const {username, owner_firstname, owner_lastname, business_name } = this.state;
+        const {username, password, owner_firstname, owner_lastname, business_name } = this.state;
         axios
-            .post('https://african-marketplace-backend.herokuapp.com/api/register', { username, owner_firstname, owner_lastname, business_name })
+            .post('https://african-marketplace-backend.herokuapp.com/api/register', { username, password, owner_firstname, owner_lastname, business_name })
             .then(res => {
                 console.log(this.res.data)
             })

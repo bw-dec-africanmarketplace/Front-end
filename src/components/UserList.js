@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';//import AxiosWithAuth from './filepath to Axios/'
+import axios from 'axios';
+import AxiosWithAuth from '../utilities/AxiosWithAuth';
 import UserCard from './UserCard';
 import SearchForm from  './SearchForm';
 
@@ -15,8 +16,21 @@ export default function UserList(){
     }
 
     useEffect(()=>{
+
+            // axios
+            //     .post("https://african-marketplace-backend.herokuapp.com/api/login", {
+            //         username: "admin",
+            //         password: "gr33ng0bl1n"
+            //     })
+            //     .then(res => {
+
+            //         localStorage.setItem("token", res.data.token);
+                    
+            //     });
+            
+
          const getUsers = () =>{
-            axios 
+            AxiosWithAuth()
                 .get('https://african-marketplace-backend.herokuapp.com/api/users')
                 .then(res =>{
                     console.log('Hello', res.data);
@@ -34,7 +48,7 @@ export default function UserList(){
         console.log(users);
 
          getUsers();
-        // setSearchResults(results);
+         setSearchResults(users);
 
     }, [searchItems]);
 
@@ -49,14 +63,15 @@ export default function UserList(){
         }
 
     return(
-        
+        // <div>
+        // </div>
         <div>
             <SearchForm searchItems={searchItems} handleChange={handleChange}/>
 
             {users && users.map(e =>{
                 console.log(e);
-                return <UserCard avatar_url={e.image} id={e.id} email={e.email} username={e.username} owner_first_name={e.fname} owner_last_name={e.lname} business_name={e.business.name} />
-                //return <UserCard  id={e.id} email={e.email} username={e.username} />
+                return <UserCard  id={e.id} username={e.username} owner_firstname={e.fname} owner_lastname={e.lname} business_name={e.business_name} />
+            
             })}
            
         </div>

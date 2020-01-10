@@ -41,11 +41,11 @@ export default class UserForm extends Component {
 
     createUser = (e) => {
         e.preventDefault();
-        const {username, password, owner_firstname, owner_lastname, business_name } = this.state;
+        const {username, owner_firstname, owner_lastname, business_name } = this.state;
         axios
-            .post('https://african-marketplace-backend.herokuapp.com/api/register', { username, password, owner_firstname, owner_lastname, business_name })
+            .post('https://african-marketplace-backend.herokuapp.com/api/register', { username, owner_firstname, owner_lastname, business_name })
             .then(res => {
-                console.log(res.data)
+                console.log(this.res.data)
             })
             .catch(err => {
                 console.error('Error', err)
@@ -55,7 +55,7 @@ export default class UserForm extends Component {
     
 
     render() {
-        const {username, password, owner_firstname, owner_lastname, business_name } = this.state;
+        const {username, owner_firstname, owner_lastname, business_name } = this.state;
        
         const ColorButton = withStyles(theme => ({
             root: {
@@ -72,6 +72,7 @@ export default class UserForm extends Component {
             <Form className="inputFields">
                 
                 <Input
+                    required
                     type="text"
                     placeholder="Username"
                     name="username"
@@ -80,6 +81,7 @@ export default class UserForm extends Component {
                 />
                 <br />
                 <Input
+                    required
                     type="text"
                     placeholder="First Name"
                     name="owner_firstname"
@@ -88,6 +90,7 @@ export default class UserForm extends Component {
                 />
                 <br />
                 <Input
+                    required
                     type="text"
                     placeholder="Last Name"
                     name="owner_lastname"
@@ -95,7 +98,7 @@ export default class UserForm extends Component {
                     onChange={this.onChange}
                 />
                 <br />
-                <Input
+                <Input                          
                     type="text"
                     placeholder="Business"
                     name="business_name"

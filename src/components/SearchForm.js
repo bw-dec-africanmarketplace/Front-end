@@ -35,7 +35,7 @@ export default function SearchForm({searchTerms, handleChange}){
     return(
         <section>
             {userResults.map(e => (
-                <UserCard avatar_url={e.image} id={e.id} email={e.email} username={e.username} owner_first_name={e.fname} owner_last_name={e.lname} business_name={e.business.name} />
+                <UserCard avatar_url={e.image} id={e.id} email={e.email} username={e.username} owner_firstname={e.fname} owner_lastname={e.lname} business_name={e.business.name} />
             ))}
 
             <form>

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function UserCard({id,email,username,owner_first_name, owner_last_name,business_name,avatar_url}){
+export default function UserCard({id,email,username,owner_firstname, owner_lastname,business_name,avatar_url}){
 
 
 
@@ -13,8 +13,8 @@ export default function UserCard({id,email,username,owner_first_name, owner_last
                 <h1>ID:{id}</h1>
                 <p>Email:{email}</p>
                 <p>Username: {username}</p>
-                <p>fname: {owner_first_name}</p>
-                <p>lname:{owner_last_name}</p>
+                <p>fname: {owner_firstname}</p>
+                <p>lname:{owner_lastname}</p>
                 <p>Business: {business_name}</p>
             </div>
         </section>

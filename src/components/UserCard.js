@@ -1,8 +1,10 @@
 import React from "react";
 
+
+
 export default function UserCard({id,email,username,owner_firstname, owner_lastname,business_name,avatar_url}){
 
-
+    
 
     return(
         <section>

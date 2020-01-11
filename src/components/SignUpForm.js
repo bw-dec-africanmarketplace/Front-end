@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React, { useState,Component } from "react";
 import axios from "axios";
+import AxiosWithAuth from '../utilities/AxiosWithAuth'
 import styled from "styled-components";
 import Button from '@material-ui/core/Button';
 import { purple } from '@material-ui/core/colors';
@@ -21,41 +22,105 @@ const Input = styled.input`
              
         `
 
-export default class UserForm extends Component {
-    constructor() {
-        super();
-        this.state = {
+
+
+
+
+
+// export default class UserForm extends Component {
+//     constructor() {
+//         super();
+//         this.state = {
+//             username: '',
+//             owner_firstname: '',
+//             owner_lastname: '',
+//             business_name: '',
+
+//         };
+//     }
+//     handleSubmit = event =>{
+//         event.preventDefault();
+        
+//         const newMember ={
+//             username: this.state.username,
+//             owner_firstname: this.state.owner_firstname,
+//             owner_lastname: this.state.owner_lastname,
+//             business_name: this.state.business_name,
+//         }
+
+//         AxiosWithAuth()
+//             .post(`https://african-marketplace-backend.herokuapp.com/api/register`, {newMember})
+//             .then(res =>{
+//                 console.log(res);
+//                 console.log(res.data);
+//             });
+
+//         const createUser = (e) => {
+//             e.preventDefault();
+//             const { username, password, owner_firstname, owner_lastname, business_name } = this.state;
+//             AxiosWithAuth()
+//                 .post('https://african-marketplace-backend.herokuapp.com/api/register', { username, password, owner_firstname, owner_lastname, business_name })
+//                 .then(res => {
+//                     console.log(this.res.data)
+//                 })
+//                 .catch(err => {
+//                     console.error('Error', err)
+//                 });
+
+//         };
+//     }
+
+//      onChange = (e) => {
+//         this.setState({ [e.target.name]: e.target.value });
+//         console.log(e.target.value);
+//     }
+
+    
+     const UserForm = (props)=>{
+
+            const [users, setUsers] = useState({
             username: '',
             password: '',
             owner_firstname: '',
             owner_lastname: '',
             business_name: '',
+        });
 
-        };
-    }
 
-    onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
-        console.log(e.target.value);
-    }
+            const onChange = e =>{
 
-    createUser = (e) => {
-        e.preventDefault();
-        const {username, password, owner_firstname, owner_lastname, business_name } = this.state;
-        axios
-            .post('https://african-marketplace-backend.herokuapp.com/api/register', { username, password, owner_firstname, owner_lastname, business_name })
-            .then(res => {
-                console.log(this.res.data)
-            })
-            .catch(err => {
-                console.error('Error', err)
-            });
-        
-    };
+                setUsers({...users,[e.target.name]:e.target.value})
+            }
+
+        //  axios *****NOT SURE IF THIS IS TO BE USED OR NOT************
+        //      .post("https://african-marketplace-backend.herokuapp.com/api/login", {
+        //          username: "admin",
+        //          password: "gr33ng0bl1n"
+        //      })
+        //      .then(res => {
+
+        //          localStorage.setItem("token", res.data.token);
+
+        //      });
+
+            
+            const handleSubmit = e =>{
+                e.preventDefault();
+            AxiosWithAuth()
+                .post(`https://african-marketplace-backend.herokuapp.com/api/register`, {users})
+                .then(sessionStorage.setItem("token", "users"))
+                .then(props.history.push("/"))
+                .catch(err =>{
+                    console.log('error', err)
+                })
+            };
+
     
 
-    render() {
-        const {username, owner_firstname, owner_lastname, business_name } = this.state;
+
+
+    //render() {
+        // const {username, owner_firstname, owner_lastname, business_name } = this.state;
        
         const ColorButton = withStyles(theme => ({
             root: {
@@ -69,24 +134,32 @@ export default class UserForm extends Component {
 
 
         return (
-            <Form className="inputFields">
+            <Form className="inputFields" onSubmit={handleSubmit}>
                 
                 <Input
                     required
                     type="text"
                     placeholder="Username"
                     name="username"
-                    value={username}
-                    onChange={this.onChange}
+                    value={users.username}
+                    onChange={onChange}
                 />
                 <br />
+                <Input
+                    required
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    value={users.password}
+                    onChange={onChange}
+                />
                 <Input
                     required
                     type="text"
                     placeholder="First Name"
                     name="owner_firstname"
-                    value={owner_firstname}
-                    onChange={this.onChange}
+                    value={users.owner_firstname}
+                    onChange={onChange}
                 />
                 <br />
                 <Input
@@ -94,22 +167,23 @@ export default class UserForm extends Component {
                     type="text"
                     placeholder="Last Name"
                     name="owner_lastname"
-                    value={owner_lastname}
-                    onChange={this.onChange}
+                    value={users.owner_lastname}
+                    onChange={onChange}
                 />
                 <br />
                 <Input                          
                     type="text"
                     placeholder="Business"
                     name="business_name"
-                    value={business_name}
-                    onChange={this.onChange}
+                    value={users.business_name}
+                    onChange={onChange}
                 />
 
-                <ColorButton variant="contained" color="primary" onClick={this.createUser} >
+                <ColorButton  type="submit" variant="contained" color="primary" >
                     Submit
                 </ColorButton>
             </Form>
         );
-    }
+    //}
 }
+export default UserForm;

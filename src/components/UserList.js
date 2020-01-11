@@ -17,16 +17,16 @@ export default function UserList(){
 
     useEffect(()=>{
 
-            // axios
-            //     .post("https://african-marketplace-backend.herokuapp.com/api/login", {
-            //         username: "admin",
-            //         password: "gr33ng0bl1n"
-            //     })
-            //     .then(res => {
+            axios
+                .post("https://african-marketplace-backend.herokuapp.com/api/login", {
+                    username: "admin",
+                    password: "gr33ng0bl1n"
+                })
+                .then(res => {
 
-            //         localStorage.setItem("token", res.data.token);
+                    localStorage.setItem("token", res.data.token);
                     
-            //     });
+                });
             
 
          const getUsers = () =>{

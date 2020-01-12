@@ -32,7 +32,7 @@ const UserForm = props => {
         setUsers({ ...users, [e.target.name]: e.target.value });
     };
     /// ===== AARON'S NOTE: THE BELOW CODE IS NOT TO BE USED (LINES 38 - 47). THIS IS JUST FOR TESTING =====
-    //  axios *****NOT SURE IF THIS IS TO BE USED OR NOT************
+    //  axios 
     //      .post("https://african-marketplace-backend.herokuapp.com/api/login", {
     //          username: "admin",
     //          password: "gr33ng0bl1n"
@@ -43,7 +43,7 @@ const UserForm = props => {
     // PLEASE NOTE: AxiosWithAuth is not to be used when registering. A normal axios call will do. AxiosWithAuth is used for all requests once users are logged into the app. Registration doesn't require login.
     const handleSubmit = e => {
         e.preventDefault();
-        AxiosWithAuth()
+        axios
             .post(`https://african-marketplace-backend.herokuapp.com/api/register`, {
                 users
             })
@@ -62,8 +62,9 @@ const UserForm = props => {
             }
         }
     }))(Button);
+
     return (
-        <Form className='inputFields' onSubmit={handleSubmit}>
+        <Form className='inputFields'>
             <Input
                 required
                 type='text'
@@ -107,7 +108,7 @@ const UserForm = props => {
                 onChange={onChange}
             />
             {/*Add the submit function handler to the button*/}
-            <ColorButton type='submit' variant='contained' color='primary'>
+            <ColorButton type='submit' variant='contained' color='primary' onSubmit={handleSubmit}>
                 Submit
             </ColorButton>
         </Form>

@@ -5,6 +5,8 @@ import UserCard from './UserCard';
 import SearchForm from  './SearchForm';
 
 
+
+
 export default function UserList(){
 
 
@@ -57,17 +59,18 @@ export default function UserList(){
            return(
             <div>
                 <SearchForm searchItems={searchItems} handleChange={handleChange}/>
-                <div>loading</div>
+                <div>Loading!</div>
             </div>
            )
 
         }
 
     return(
-        // <div>
-        // </div>
+        
         <div>
-            <SearchForm searchItems={searchItems} handleChange={handleChange}/>
+            <div>
+                <SearchForm searchItems={searchItems} handleChange={handleChange}/>
+            </div>
 
             {users && users.map(e =>{
                 console.log(e);

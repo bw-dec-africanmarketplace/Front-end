@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import AxiosWithAuth from '../utilities/AxiosWithAuth'
 import UserCard from './UserCard';
 
 export default function SearchForm({searchTerms, handleChange}){
@@ -13,7 +14,7 @@ export default function SearchForm({searchTerms, handleChange}){
     }
     useEffect(() => {
         const newUsers = () =>{
-            axios
+            AxiosWithAuth()
                 .get('https://african-marketplace-backend.herokuapp.com/api/users')    
                 .then(res =>{
                     console.log(res.data);
@@ -35,7 +36,7 @@ export default function SearchForm({searchTerms, handleChange}){
     return(
         <section>
             {userResults.map(e => (
-                <UserCard avatar_url={e.image} id={e.id} email={e.email} username={e.username} owner_firstname={e.fname} owner_lastname={e.lname} business_name={e.business.name} />
+                <UserCard  id={e.id} username={e.username} owner_firstname={e.fname} owner_lastname={e.lname} business_name={e.business_name} />
             ))}
 
             <form>
